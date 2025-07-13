@@ -1,3 +1,6 @@
 [submodule ".ssh/keys"]
 	path = .ssh/keys
 	url = https://gitlab.com/n0brain3r/dotfiles-ssh-keys
+[submodule "AppData/Roaming/Zed"]
+	path = AppData/Roaming/Zed
+	url = git@github.com:n0bra1n3r/.config-zed.git

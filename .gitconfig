@@ -1,0 +1,44 @@
+[advice]
+  useCoreFSMonitorConfig = false
+
+[alias]
+  ca = commit --amend
+  ce = commit --allow-empty --message
+  cm = commit --message
+  pu = push --follow-tags --recurse-submodules=check --set-upstream origin HEAD
+  rb = rebase --rebase-merges --interactive
+  rs = restore
+  sa = stash
+  st = status
+  sw = switch
+
+[core]
+  pager = delta
+
+[credential]
+  helper = store
+
+[delta]
+  navigate = true
+
+[diff]
+  colorMoved = default
+
+[interactive]
+  diffFilter = delta --color-only
+
+[pull]
+  rebase = true
+
+[push]
+  default = current
+
+[status]
+  showUntrackedFiles = no
+
+[url "git@n0bra1n3r.github.com"]
+  insteadOf = git@github.com
+
+[user]
+  name = Ryan Blonna
+  email = n0.b741n37+Github@gmail.com

@@ -1,0 +1,1 @@
+alias dot='git --git-dir=$HOME/.files/ --work-tree=$HOME'

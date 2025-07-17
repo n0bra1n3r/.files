@@ -5,6 +5,7 @@
   ca = commit --amend
   ce = commit --allow-empty --message
   cm = commit --message
+  ig = update-index --assume-unchanged
   pl = pull --recurse-submodules
   pu = push --follow-tags --recurse-submodules=check --set-upstream origin HEAD
   rb = rebase --rebase-merges --interactive

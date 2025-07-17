@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+GITBASH="$PROGRAMFILES/Git/bin/bash.exe"
+
+if [ -f "$GITBASH" ]
+then
+  "$GITBASH" --login -i
+else
+  bash --login -i
+fi

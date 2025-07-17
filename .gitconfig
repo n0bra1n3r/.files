@@ -20,12 +20,16 @@
 
 [delta]
   navigate = true
+  side-by-side = true
 
 [diff]
   colorMoved = default
 
 [interactive]
   diffFilter = delta --color-only
+
+[merge]
+  conflictstyle = zdiff3
 
 [pull]
   rebase = true

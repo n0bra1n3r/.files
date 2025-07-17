@@ -1,3 +1,7 @@
+PATH="$PATH:$HOME/.local/bin"
+
+export PATH
+
 alias dot='git --git-dir=$HOME/.files/ --work-tree=$HOME'
 
 alias g='git'

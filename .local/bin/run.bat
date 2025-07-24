@@ -1,4 +1,15 @@
 @echo off
+
+rem Bypass "Terminate Batch Job" prompt.
+if "%~1"=="-fixed_ctrl_c" (
+   rem Remove the -fixed_ctrl_c parameter
+   shift
+) else (
+   rem Run the batch with <null and -fixed_ctrl_c
+   call <nul %0 -fixed_ctrl_c %*
+   goto :EOF
+)
+
 setlocal enabledelayedexpansion
 
 rem Combine all arguments into one launch command
@@ -54,5 +65,5 @@ if "!LATEST_PATH!"=="" (
     exit /b 1
 )
 
-echo Executing: "!LATEST_PATH!" with options
 "!LATEST_PATH!" !LAUNCH_CMD:%EXE_NAME%=!
+

@@ -17,3 +17,8 @@ alias gp='g pu'
 alias gs='g st'
 alias gu='g pl'
 alias gw='g sw'
+
+if echo "$PWD" | grep -iq "/system32"
+then
+  cd "$HOME"
+fi

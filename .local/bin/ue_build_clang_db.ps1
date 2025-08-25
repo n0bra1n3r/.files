@@ -79,6 +79,10 @@ $buildArgs = @(
 
 & $buildBatPath @buildArgs
 
+if ($LASTEXITCODE -ne 0) {
+    exit $LASTEXITCODE
+}
+
 # Move compile_commands.json from UE folder to project folder
 $ueCompileCommands = Join-Path $ueDir "compile_commands.json"
 $projectCompileCommands = Join-Path $projectDir "compile_commands.json"

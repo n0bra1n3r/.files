@@ -6,7 +6,7 @@ alias dot='git --git-dir="$HOME/.files/" --work-tree="$HOME"'
 alias dota='dot add -u'
 alias dotc='dot cm'
 alias dotp='dot pu --recurse-submodules=on-demand'
-alias dots='dot st'
+alias dots='dot st --untracked-files=no'
 alias dotu='dot pull'
 
 alias g='git'

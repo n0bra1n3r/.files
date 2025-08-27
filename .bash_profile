@@ -58,6 +58,15 @@ secret() {
 
 secret GH_TOKEN
 
+export RG_PREFIX='rg --column --line-number --no-heading --color=always --smart-case'
+
+rip() {
+  fzf --bind 'start:reload:$RG_PREFIX ""' \
+    --bind 'change:reload:$RG_PREFIX {q} || true' \
+    --bind 'enter:become(vim {1} +{2})' \
+    --ansi --disabled --layout=reverse
+}
+
 if ! command -v starship &> /dev/null
 then
   STARSHIP_URL="https://github.com/starship/starship/releases/latest/download"

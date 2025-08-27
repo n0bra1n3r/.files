@@ -40,9 +40,6 @@
 [push]
   default = current
 
-[status]
-  showUntrackedFiles = no
-
 [url "git@n0bra1n3r.github.com"]
   insteadOf = git@github.com
 

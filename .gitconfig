@@ -5,10 +5,12 @@
   ca = commit --amend
   ce = commit --allow-empty --message
   cm = commit --message
+  fe = fetch origin
   ig = update-index --assume-unchanged
+  lo = log --follow --
   pl = pull --recurse-submodules
   pu = push --follow-tags --recurse-submodules=check --set-upstream origin HEAD
-  rb = rebase --rebase-merges --interactive
+  rb = rebase --rebase-merges
   rs = restore
   sa = stash
   st = status

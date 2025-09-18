@@ -17,6 +17,10 @@ export HISTFILESIZE=$HISTSIZE
 
 PROMPT_COMMAND="history -a $HISTFILE;$PROMPT_COMMAND"
 
+if [[ "$OS" == "Windows"* ]]; then 
+  eval "$(vcvarsall.sh x64)"
+fi
+
 if [[ -f ~/.bashrc ]] && ! (return 0 2>/dev/null); then
   # shellcheck disable=1090
   source ~/.bashrc

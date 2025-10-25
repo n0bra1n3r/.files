@@ -2,7 +2,7 @@
   useCoreFSMonitorConfig = false
 
 [alias]
-  ca = commit --amend
+  ca = commit --amend --no-edit
   ce = commit --allow-empty --message
   cm = commit --message
   fe = fetch origin

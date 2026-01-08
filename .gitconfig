@@ -17,6 +17,8 @@
   sw = switch
 
 [core]
+  autocrlf = false
+  eol = lf
   excludesfile = ~/.config/git/ignore
   pager = delta
 

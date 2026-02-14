@@ -1,5 +1,11 @@
 PATH="$PATH:$HOME/.local/bin"
 
+if [[ -v ZED_TERM ]]
+then
+  ZED_PATH="${OLDPWD/C:/\/c}/bin"
+  PATH="$PATH:$ZED_PATH"
+fi
+
 export PATH
 
 alias dot='git --git-dir="$HOME/.files/" --work-tree="$HOME"'

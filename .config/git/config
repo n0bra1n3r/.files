@@ -20,6 +20,7 @@
   autocrlf = false
   eol = lf
   excludesfile = ~/.config/git/ignore
+  attributesFile = ~/.config/git/attributes
 
 [credential]
   helper = store

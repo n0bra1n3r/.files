@@ -8,6 +8,10 @@ fi
 
 export PATH
 
+git() {
+  command git -c include.path="$HOME/.config/git/config" "$@"
+}
+
 alias dot='git --git-dir="$HOME/.files/" --work-tree="$HOME"'
 alias dota='dot add -u'
 alias dotc='dot cm'

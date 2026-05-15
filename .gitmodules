@@ -4,3 +4,6 @@
 [submodule "AppData/Roaming/Zed"]
 	path = AppData/Roaming/Zed
 	url = git@github.com:n0bra1n3r/.config-zed.git
+[submodule ".config/zed"]
+	path = .config/zed
+	url = https://github.com/n0bra1n3r/.config-zed

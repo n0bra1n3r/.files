@@ -1,0 +1,76 @@
+" --- Prerequisites ---
+" Enable vim-sneak functionality
+Plug 'justinmk/vim-sneak'
+
+" Map leader to space
+let mapleader = " "
+
+" --- Custom HJKL Swap & Wrap Fixes ---
+" Note: Your Zed config swaps H/L logic (l moves left, ; and right move right)
+nnoremap <Left> h
+vnoremap <Left> h
+nnoremap l h
+vnoremap l h
+
+nnoremap <Right> l
+vnoremap <Right> l
+nnoremap ; l
+vnoremap ; l
+
+" --- Blackhole Register Overrides (Delete/Change without yanking) ---
+nnoremap c "_c
+vnoremap c "_c
+nnoremap d "_d
+vnoremap d "_d
+nnoremap x "_x
+vnoremap x "_x
+nnoremap C "_C
+vnoremap C "_C
+nnoremap D "_D
+vnoremap D "_D
+
+" --- Visual Mode Adjustments ---
+" Indent and maintain visual selection
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
+" Paste without overwriting default register
+vnoremap p P
+" Yank and maintain visual selection
+vnoremap y ygv
+
+" --- Normal Mode Keymaps ---
+" Yank to end of line
+nnoremap Y y$
+
+" Save file (Maps Enter to :w)
+nnoremap <CR> :w<CR>
+
+" Git / Change Navigation
+nnoremap <Tab> :action VcsShowPrevChangeMessage<CR>
+nnoremap <S-Tab> :action VcsShowNextChangeMessage<CR>
+
+" --- JetBrains Actions (Space Leader Keymaps) ---
+" Search everywhere (File finder equivalent)
+nnoremap <Leader><Leader> :action SearchEverywhere<CR>
+
+" Deploy Search in current pane
+nnoremap <Leader>/ :action Find<CR>
+
+" Close all tabs
+nnoremap <Leader>x :action CloseAllEditors<CR>
+
+" Toggle Maximize Split (Zoom)
+nnoremap <Leader>z :action MaximizeEditorInSplit<CR>
+
+" Run context / Task spawn
+nnoremap <Leader>r :action RunContextBeforeRunProvider<CR>
+
+" --- Window Navigation & Splitting ---
+nnoremap <A-\> :action SplitVertically<CR>
+nnoremap <A--> :action SplitHorizontally<CR>
+
+" Pane Navigation (Matching your inverted L/Right setup)
+nnoremap <A-l> :action NextSpliter<CR>
+nnoremap <A-;> :action PrevSpliter<CR>
+nnoremap <A-j> :action NextSpliter<CR>
+nnoremap <A-k> :action PrevSpliter<CR>

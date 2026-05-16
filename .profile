@@ -1,15 +1,16 @@
 PATH="$PATH:$HOME/.local/bin"
 
-if [[ -v ZED_TERM ]]
-then
-  ZED_PATH="${OLDPWD/C:/\/c}/bin"
-  PATH="$PATH:$ZED_PATH"
-fi
-
 export PATH
 
+if [[ "$OS" == "Windows"* ]]; then
+  eval "$(vcvarsall.sh x64)"
+fi
+
 git() {
-  command git -c include.path="$HOME/.config/git/config" "$@"
+  command git \
+    -c include.path="$HOME/.config/git/config" \
+    -c url."https://$GH_USER:$GH_TOKEN@github.com".insteadOf="https://github.com" \
+    "$@"
 }
 
 alias dot='git --git-dir="$HOME/.files/" --work-tree="$HOME"'
@@ -35,7 +36,4 @@ gsync() {
   g fe "$@":"$@" && g rb "$@"
 }
 
-if echo "$PWD" | grep -iq "/system32"
-then
-  cd "$HOME"
-fi
+alias z='zeditor'

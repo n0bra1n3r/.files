@@ -17,59 +17,12 @@ export HISTFILESIZE=$HISTSIZE
 
 PROMPT_COMMAND="history -a $HISTFILE;$PROMPT_COMMAND"
 
-if [[ "$OS" == "Windows"* ]]; then 
-  eval "$(vcvarsall.sh x64)"
-fi
+source ~/.zshrc
 
 if [[ -f ~/.bashrc ]] && ! (return 0 2>/dev/null); then
   # shellcheck disable=1090
   source ~/.bashrc
 fi
-
-secret() {
-  local var_name="$1"
-  local secrets_file="$HOME/.config/secrets"
-
-  if [[ -z "$var_name" ]]; then
-    echo "Usage: secret <environment_variable_name>" >&2
-    return 1
-  fi
-
-  # Check if the environment variable already exists
-  if [[ -n "${!var_name:-}" ]]; then
-    return 0
-  fi
-
-  # Check if secrets file exists and source it
-  if [[ -f "$secrets_file" ]]; then
-    source "$secrets_file"
-    # Check again if the variable is now set
-    if [[ -n "${!var_name:-}" ]]; then
-      return 0
-    fi
-  fi
-
-  # Variable still not set, prompt user for value
-  read -s -p "Enter the value for $var_name: " var_value
-  echo
-  # Create .config directory if it doesn't exist
-  mkdir -p "$(dirname "$secrets_file")"
-  # Add the export line to the secrets file
-  echo "export $var_name=\"$var_value\"" >> "$secrets_file"
-  # Export the variable in the current session
-  export "$var_name"="$var_value"
-}
-
-secret GH_TOKEN
-
-export RG_PREFIX='rg --column --line-number --no-heading --color=always --smart-case'
-
-rip() {
-  fzf --bind 'start:reload:$RG_PREFIX ""' \
-    --bind 'change:reload:$RG_PREFIX {q} || true' \
-    --bind 'enter:become(vim {1} +{2})' \
-    --ansi --disabled --layout=reverse
-}
 
 if ! command -v starship &> /dev/null
 then

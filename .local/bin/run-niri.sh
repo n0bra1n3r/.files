@@ -15,7 +15,7 @@ Options:"
     echo "  -m, --move            If the window exists, move it to the current workspace"
     echo "                        before focusing."
     echo "  -s, --switch          If multiple windows exist, switch focus between them."
-    echo "  -k, --kill            If the window is already focused, close it instead."
+    echo "  -k, --kill            If a window exists in the current workspace, close it instead."
     echo "  -w, --workspace       Only consider existing windows in the current workspace."
     echo "  -n, --no-launch       Do not launch the application if no window is found."
     echo "  -t, --title <string>  Search for a window by its title instead of app_id."
@@ -148,14 +148,29 @@ if [ ${#WINDOW_IDS[@]} -eq 0 ]; then
 else
     TARGET_WINDOW_ID=""
 
-    if [ "$SWITCH_WINDOWS" = true ] && [ ${#WINDOW_IDS[@]} -gt 1 ]; then
-        FOCUSED_ID=$(echo "$WINDOWS_DATA" | jq -r '.[] | select(.is_focused) | .id')
+    # If kill mode is enabled, check if any matching window exists in current workspace
+    if [ "$KILL_FOCUSED" = true ]; then
+        FOCUSED_WORKSPACE=$(niri msg -j workspaces | jq -c '.[] |select(.is_focused) | .id')
 
-        # Check if we should close the focused window
-        if [ "$KILL_FOCUSED" = true ] && [ -n "$FOCUSED_ID" ]; then
-            niri msg action close-window --id "$FOCUSED_ID"
+        if [ -n "$TITLE_SEARCH" ]; then
+            WORKSPACE_WINDOWS=$(niri msg --json windows | jq -c --arg query "$TITLE_SEARCH" --arg workspace "$FOCUSED_WORKSPACE" \
+                '[.[] | select(.title and .workspace_id==($workspace|tonumber) and (.title | test($query; "i")))]')
+        else
+            WORKSPACE_WINDOWS=$(niri msg --json windows | jq -c --arg query "$SEARCH_CLASS" --arg workspace "$FOCUSED_WORKSPACE" \
+                '[.[] | select(.app_id and .workspace_id==($workspace|tonumber) and (.app_id | test($query; "i")))]')
+        fi
+
+        WORKSPACE_WINDOW_IDS=($(echo "$WORKSPACE_WINDOWS" | jq -r '.[].id'))
+
+        if [ ${#WORKSPACE_WINDOW_IDS[@]} -gt 0 ]; then
+            # Close the first matching window in current workspace
+            niri msg action close-window --id "${WORKSPACE_WINDOW_IDS[0]}"
             exit 0
         fi
+    fi
+
+    if [ "$SWITCH_WINDOWS" = true ] && [ ${#WINDOW_IDS[@]} -gt 1 ]; then
+        FOCUSED_ID=$(echo "$WINDOWS_DATA" | jq -r '.[] | select(.is_focused) | .id')
 
         CURRENT_INDEX=-1
         for i in "${!WINDOW_IDS[@]}"; do
@@ -169,15 +184,6 @@ else
         TARGET_WINDOW_ID="${WINDOW_IDS[$NEXT_INDEX]}"
     else
         TARGET_WINDOW_ID="${WINDOW_IDS[0]}"
-
-        # Check if the target window is already focused and we should close it
-        if [ "$KILL_FOCUSED" = true ]; then
-            IS_FOCUSED=$(echo "$WINDOWS_DATA" | jq -r --arg id "$TARGET_WINDOW_ID" '.[] | select(.id==($id|tonumber)) | .is_focused')
-            if [ "$IS_FOCUSED" = "true" ]; then
-                niri msg action close-window --id "$TARGET_WINDOW_ID"
-                exit 0
-            fi
-        fi
     fi
 
     if [ "$MOVE_TO_ME" = true ]; then

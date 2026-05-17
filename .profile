@@ -1,4 +1,4 @@
-PATH="$PATH:$HOME/.local/bin"
+PATH="$PATH:$HOME/.nimble/bin:$HOME/.local/bin"
 
 export PATH
 

@@ -17,8 +17,7 @@
   sw = switch
 
 [core]
-  autocrlf = false
-  eol = lf
+  autocrlf = input
   excludesfile = ~/.config/git/ignore
   attributesFile = ~/.config/git/attributes
 

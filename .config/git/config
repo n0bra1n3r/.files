@@ -27,6 +27,9 @@
 [diff]
   colorMoved = default
 
+[init]
+  defaultBranch = staging
+
 [merge]
   conflictstyle = zdiff3
 
@@ -45,3 +48,4 @@
 [user]
   name = Ryan Blonna
   email = n0.b741n37+Github@gmail.com
+

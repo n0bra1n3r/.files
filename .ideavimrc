@@ -2,6 +2,11 @@
 " Enable vim-sneak functionality
 Plug 'justinmk/vim-sneak'
 
+" Options
+set commentary
+set smartcase
+set virtualedit=onemore
+
 " Map leader to space
 let mapleader = " "
 
@@ -22,17 +27,19 @@ nnoremap c "_c
 vnoremap c "_c
 nnoremap d "_d
 vnoremap d "_d
-nnoremap x "_x
-vnoremap x "_x
+nnoremap <expr> x (col('$')<col('.')?'gJ':col('$')==col('.')?'"_x<Right>':'"_x')
 nnoremap C "_C
-vnoremap C "_C
 nnoremap D "_D
-vnoremap D "_D
+nnoremap yD D
+nnoremap yd dd
+nnoremap <expr> yx (col('$')<col('.')?'ylgJ':col('$')==col('.')?'x<Right>':'x')
 
 " --- Visual Mode Adjustments ---
 " Indent and maintain visual selection
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
+" Comment selected lines
+vnoremap gc :action CommentByLineComment<CR>
 " Paste without overwriting default register
 vnoremap p P
 " Yank and maintain visual selection

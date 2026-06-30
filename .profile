@@ -25,12 +25,56 @@ if [[ "$OS" == "Windows"* ]]; then
   eval "$(vcvarsall.sh x64)"
 fi
 
+secret() {
+  local var_name="$1"
+  local secrets_file="$HOME/.config/secrets"
+  if [[ -z "$var_name" ]]; then
+    echo "Usage: secret <environment_variable_name>" >&2
+    return 1
+  fi
+  local current_value
+  eval "current_value=\$$var_name"
+  if [[ -n "$current_value" ]]; then
+    return 0
+  fi
+  if [[ -f "$secrets_file" ]]; then
+    source "$secrets_file"
+    eval "current_value=\$$var_name"
+    if [[ -n "$current_value" ]]; then
+      return 0
+    fi
+  fi
+  local var_value
+  if [[ -n "$ZSH_VERSION" ]]; then
+    echo -n "Enter the value for $var_name: "
+    read -s var_value
+    echo
+  else
+    read -s -p "Enter the value for $var_name: " var_value
+    echo
+  fi
+  mkdir -p "$(dirname "$secrets_file")"
+  echo "export $var_name=\"$var_value\"" >> "$secrets_file"
+  eval "export $var_name=\"$var_value\""
+}
+
 git() {
   command git \
     -c include.path="$HOME/.config/git/config" \
     -c url."https://$GH_USER:$GH_TOKEN@github.com".insteadOf="https://github.com" \
     "$@"
 }
+
+if [[ $- == *i* ]]; then
+  secret GH_USER
+  secret GH_TOKEN
+fi
+
+case "$PWD" in
+  *[Ss]ystem32*)
+    cd "$HOME"
+    ;;
+esac
 
 alias dot='git --git-dir="$HOME/.files/" --work-tree="$HOME"'
 alias dota='dot add -u'

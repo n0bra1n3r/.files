@@ -3,6 +3,25 @@ PATH="$PATH:$HOME/.nimble/bin:$HOME/.local/bin"
 export PATH
 
 if [[ "$OS" == "Windows"* ]]; then
+  vs_init="$HOME/.vs_init"
+  if [ ! -f "$vs_init" ]; then
+    vs_id=$(winget list --name "Visual Studio" --source winget | grep -oE "Microsoft\.VisualStudio\.[0-9]{4}\.[a-zA-Z]+")
+    if [ -z "$vs_id" ]; then
+      vs_id="Microsoft.VisualStudio.2022.Community"
+    fi
+    if winget list --id "$vs_id" &>/dev/null; then
+      edition=$(echo "$vs_id" | awk -F. '{print $NF}')
+      "/c/Program Files (x86)/Microsoft Visual Studio/Installer/vs_installer.exe" modify \
+        --installPath "C:\\Program Files\\Microsoft Visual Studio\\2022\\$edition" \
+        --passive --norestart \
+        --add "Microsoft.VisualStudio.Component.VC.Tools.x86.x64" \
+        --add "Microsoft.VisualStudio.Component.Windows11SDK.22000"
+    else
+      winget install "$vs_id" \
+      --silent --override "--passive --norestart --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows11SDK.22000"
+    fi
+    touch "$vs_init"
+  fi
   eval "$(vcvarsall.sh x64)"
 fi
 

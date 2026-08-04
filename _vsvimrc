@@ -1,0 +1,96 @@
+" ============================================================================
+"  _vsvimrc  — translated from ideavimrc for VsVim (Visual Studio)
+"  Location : %USERPROFILE%\_vsvimrc   (C:\Users\ryan.blonna\_vsvimrc)
+"  Reload   : run  :source ~/_vsvimrc  in VS, or restart Visual Studio.
+" ============================================================================
+
+" ----------------------------------------------------------------------------
+"  THINGS THAT DO NOT TRANSLATE TO VsVim (notes only — no effect below)
+" ----------------------------------------------------------------------------
+"  * Plug 'justinmk/vim-sneak'   VsVim has NO plugin system. sneak unavailable.
+"  * set commentary              VsVim does not emulate vim-commentary. The
+"                                visual-mode `gc` is remapped via :vsc below.
+"  * set clipboard+=ideaput      `ideaput` is IdeaVim-only. Dropped.
+"  * <expr> maps using col()     VsVim has no expression maps or vimscript
+"                                functions, so the "smart" x / yx maps are
+"                                replaced with plain black-hole equivalents.
+"  * :action <JetBrainsAction>   Not valid in VsVim. Replaced with `:vsc
+"                                <VisualStudioCommand>` (see NOTE at bottom).
+
+" --- Options ---------------------------------------------------------------
+set smartcase
+set virtualedit=onemore
+set clipboard=unnamed
+
+" --- Leader ----------------------------------------------------------------
+let mapleader = " "
+
+" --- Custom HJKL Swap & Wrap Fixes -----------------------------------------
+"  (l moves left; ; and Right move right)
+nnoremap <Left> h
+vnoremap <Left> h
+nnoremap l h
+vnoremap l h
+
+nnoremap <Right> l
+vnoremap <Right> l
+nnoremap ; l
+vnoremap ; l
+
+" --- Black-hole Register Overrides (delete/change without yanking) ----------
+nnoremap c "_c
+vnoremap c "_c
+nnoremap d "_d
+vnoremap d "_d
+nnoremap C "_C
+nnoremap D "_D
+nnoremap yD D
+nnoremap yd dd
+" Original smart x/yx used <expr> + col(); VsVim can't do that. Plain fallback:
+nnoremap x "_x
+nnoremap yx yl
+
+" --- Visual Mode Adjustments -----------------------------------------------
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
+" Comment selected lines (VS2022). Older VS: use Edit.CommentSelection instead.
+vnoremap gc :vsc Edit.ToggleLineComment<CR>
+vnoremap p P
+vnoremap y ygv
+
+" --- Normal Mode Keymaps ---------------------------------------------------
+nnoremap Y y$
+" Save file (Enter -> :w)
+nnoremap <CR> :w<CR>
+
+" Git / change navigation  (VERIFY command names — see NOTE)
+nnoremap <Tab> :vsc Edit.PreviousChange<CR>
+nnoremap <S-Tab> :vsc Edit.NextChange<CR>
+
+" --- Leader Keymaps (Visual Studio commands) -------------------------------
+nnoremap <Leader><Leader> :vsc Edit.GoToAll<CR>
+nnoremap <Leader>/ :vsc Edit.Find<CR>
+nnoremap <Leader>x :vsc Window.CloseAllDocuments<CR>
+nnoremap <Leader>z :vsc Window.MaximizeFloatingWindow<CR>
+nnoremap <Leader>r :vsc Debug.StartWithoutDebugging<CR>
+
+" --- Window Navigation & Splitting -----------------------------------------
+nnoremap <A-\> :vsc Window.NewVerticalTabGroup<CR>
+nnoremap <A--> :vsc Window.NewHorizontalTabGroup<CR>
+nnoremap <A-l> :vsc Window.NextSplitPane<CR>
+nnoremap <A-;> :vsc Window.PreviousSplitPane<CR>
+nnoremap <A-j> :vsc Window.NextSplitPane<CR>
+nnoremap <A-k> :vsc Window.PreviousSplitPane<CR>
+
+" ============================================================================
+"  NOTE — verifying / fixing Visual Studio command names
+"  `:vsc <Name>` runs a VS command. If a mapping does nothing, the command
+"  name is wrong for your VS version. Find the correct one via:
+"     Tools > Options > Environment > Keyboard  (type in "Show commands
+"     containing" to browse exact command names).
+"  Command names likely to differ across VS versions / editions:
+"     Edit.ToggleLineComment  (older VS: Edit.CommentSelection)
+"     Edit.PreviousChange / Edit.NextChange  (VCS gutter change nav)
+"     Window.MaximizeFloatingWindow  (no true "zoom split"; consider
+"        View.FullScreen instead)
+" ============================================================================

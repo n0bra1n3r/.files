@@ -1,0 +1,12 @@
+{
+  "providers": {
+    "openrouter": {
+      "preferred_models": [
+        {
+	  "id": "openrouter/free",
+	  "effort": "high"
+	}
+      ]
+    }
+  }
+}

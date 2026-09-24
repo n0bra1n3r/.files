@@ -1,0 +1,29 @@
+{
+  "model": "openrouter/free",
+  "provider": "openrouter",
+  "system_prompt": null,
+  "append_system_prompt": null,
+  "tools": null,
+  "auto_memory": null,
+  "skills": null,
+  "include_skills": null,
+  "exclude_skills": null,
+  "session_save": null,
+  "permission_mode": null,
+  "permissions": {
+    "allow": [
+      "WebFetch"
+    ]
+  },
+  "short_prompt": null,
+  "max_concurrent_subagents": null,
+  "theme": "Dark mode",
+  "has_completed_onboarding": true,
+  "ambient_thinking_phrase": null,
+  "ambient_prompt_suggestion": null,
+  "tips": null,
+  "group_tool_activity": null,
+  "auto_compact": null,
+  "channel": null,
+  "status_line": null
+}

@@ -23,6 +23,10 @@ if [[ "$OS" == "Windows"* ]]; then
     touch "$vs_init"
   fi
   eval "$(vcvarsall.sh x64)"
+else
+  if ! command -v ante &> /dev/null; then
+    curl -fsSL https://ante.run/install.sh | ANTE_INSTALL_DIR=~/.local/bin bash
+  fi
 fi
 
 secret() {
@@ -68,6 +72,7 @@ git() {
 if [[ $- == *i* ]]; then
   secret GH_USER
   secret GH_TOKEN
+  secret OPENROUTER_API_KEY
 fi
 
 case "$PWD" in

@@ -12,11 +12,15 @@
   "permission_mode": null,
   "permissions": {
     "allow": [
-      "WebFetch"
+      "WebFetch",
+      "WebSearch"
     ]
   },
   "short_prompt": null,
   "max_concurrent_subagents": null,
+  "model_effort": {
+    "deepseek/deepseek-v4.1-flash": "max"
+  },
   "theme": "Dark mode",
   "has_completed_onboarding": true,
   "ambient_thinking_phrase": null,
@@ -25,5 +29,8 @@
   "group_tool_activity": null,
   "auto_compact": null,
   "channel": null,
-  "status_line": null
+  "status_line": null,
+  "provider_model": {
+    "openrouter": "deepseek/deepseek-v4.1-flash"
+  }
 }

@@ -1,6 +1,8 @@
 PATH="$PATH:$HOME/.nimble/bin:$HOME/.local/bin"
+SANDBOX="$HOME/Sandbox"
 
 export PATH
+export SANDBOX
 
 if [[ "$OS" == "Windows"* ]]; then
   vs_init="$HOME/.vs_init"
@@ -23,10 +25,6 @@ if [[ "$OS" == "Windows"* ]]; then
     touch "$vs_init"
   fi
   eval "$(vcvarsall.sh x64)"
-else
-  if ! command -v ante &> /dev/null; then
-    curl -fsSL https://ante.run/install.sh | ANTE_INSTALL_DIR=~/.local/bin bash
-  fi
 fi
 
 secret() {
@@ -67,6 +65,19 @@ git() {
     -c include.path="$HOME/.config/git/config" \
     -c url."https://$GH_USER:$GH_TOKEN@github.com".insteadOf="https://github.com" \
     "$@"
+}
+
+ante() {
+  if ! command -v ante &> /dev/null; then
+    curl -fsSL https://ante.run/install.sh && mkdir -p "$SANDBOX"
+  fi
+  cd "$SANDBOX" && "$HOME/.ante/bin/ante" "$@"
+}
+
+ante-dev() {
+  SANDBOX="$HOME/Projects/$1" 
+  shift
+  ante --model '~deepseek/deepseek-flash-latest' --effort max "$@"
 }
 
 if [[ $- == *i* ]]; then

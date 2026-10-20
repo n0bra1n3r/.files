@@ -71,7 +71,7 @@ ante() {
   if ! command -v ante &> /dev/null; then
     curl -fsSL https://ante.run/install.sh && mkdir -p "$SANDBOX"
   fi
-  cd "$SANDBOX" && "$HOME/.ante/bin/ante" "$@"
+  (cd "$SANDBOX" && "$HOME/.ante/bin/ante" "$@")
 }
 
 ante-dev() {
